@@ -37,10 +37,11 @@ class Phone(Field):
 class Email(Field):
     @Field.value.setter
     def value(self, new_value):
-        if not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", new_value):
+        new_value = new_value.strip().lower()
+        if not re.match(r"^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$", new_value):
             raise ValueError("Invalid email format.")
         self._value = new_value
-
+        
 
 class Address(Field):
     @Field.value.setter
@@ -62,8 +63,8 @@ class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
+        self.emails = []
         self.birthday = None
-        self.email = None
         self.address = None
 
     def add_phone(self, phone: str) -> None:
@@ -85,7 +86,22 @@ class Record:
             found_phone.value = new_phone
 
     def add_email(self, email: str) -> None:
-        self.email = Email(email)
+        for e in self.emails:
+             if e.value == email:
+                raise ValueError("Email already exists.")
+        self.emails.append(Email(email))
+
+    def find_email(self, email):
+         for item in self.emails:
+            if item.value == email:
+                return item
+
+
+    def remove_email(self, email):
+        found_email = self.find_email(email)
+        if found_email:
+            self.emails.remove(found_email)
+    
 
     def add_address(self, address: str) -> None:
         self.address = Address(address)
@@ -97,7 +113,7 @@ class Record:
         parts = [f"Contact name: {self.name.value}"]
         parts.append(f"phones: {'; '.join(p.value for p in self.phones)}")
         if self.email:
-            parts.append(f"email: {self.email.value}")
+            parts.append(f"email: {'; '.join(e.value for e in self.emails)}")
         if self.address:
             parts.append(f"address: {self.address.value}")
         if self.birthday:
