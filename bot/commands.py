@@ -1,6 +1,8 @@
 from typing import List
 from bot.errors import input_error
 from bot.addressbook import AddressBook, Record
+from bot.notebook import Notebook
+from bot.note import Note
 
 @input_error
 def add_contact(args: List[str], book: AddressBook) -> str:
@@ -102,3 +104,46 @@ def add_address(args: List[str], book: AddressBook) -> str:
         return "Contact not found."
     record.add_address(address)
     return "Address added."
+
+@input_error
+def add_note(args: List[str], notebook: Notebook) -> str:
+    if len(args) < 2:
+        raise IndexError
+    title = args[0]
+    body = " ".join(args[1:])
+    note = Note(title, body)
+    notebook.add(note)
+    return "Note added."
+
+@input_error
+def show_notes(args: List[str], notebook: Notebook) -> str:
+    if not notebook.notes:
+        return "No notes found."
+    lines = [f"{n.title}: {n.body}" for n in notebook.notes]
+    return "\n".join(lines)
+
+@input_error
+def find_note(args: List[str], notebook: Notebook) -> str:
+    query = args[0]
+    results = notebook.find(query)
+    if not results:
+        return "No notes found."
+    lines = [f"{n.title}: {n.body}" for n in results]
+    return "\n".join(lines)
+
+@input_error
+def edit_note(args: List[str], notebook: Notebook) -> str:
+    if len(args) < 2:
+        raise IndexError
+    title = args[0]
+    new_body = " ".join(args[1:])
+    if notebook.edit(title, new_body):
+        return "Note updated."
+    return "Note not found."
+
+@input_error
+def delete_note(args: List[str], notebook: Notebook) -> str:
+    title = args[0]
+    if notebook.delete(title):
+        return "Note deleted."
+    return "Note not found."
