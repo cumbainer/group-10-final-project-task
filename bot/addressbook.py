@@ -134,7 +134,7 @@ class AddressBook(UserDict):
     def delete(self, name):
         self.data.pop(name, None)
 
-    def get_upcoming_birthdays(self):
+    def get_upcoming_birthdays(self, days: int = 7) -> list:
         today = datetime.today().date()
         result = []
 
@@ -146,7 +146,7 @@ class AddressBook(UserDict):
             next_bday = get_next_birthday_this_or_next_year(birthday_date, today)
 
             days_diff = (next_bday - today).days
-            if not (0 <= days_diff <= 7):
+            if not (0 <= days_diff <= days):
                 continue
 
             congratulation_date = adjust_if_weekend(next_bday)

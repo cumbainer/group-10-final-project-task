@@ -76,10 +76,19 @@ def show_birthday(args: List[str], book: AddressBook) -> str:
 
 @input_error
 # Prints upcoming birthdays for the next week using AddressBook.get_upcoming_birthdays().
+@input_error
 def birthdays(args: List[str], book: AddressBook) -> str:
-    upcoming = book.get_upcoming_birthdays()
+    days = 7
+
+    if args:
+        days = int(args[0])
+        if days < 0:
+            raise ValueError("Days must be a non-negative number.")
+
+    upcoming = book.get_upcoming_birthdays(days)
+
     if not upcoming:
-        return "No birthdays in the next 7 days."
+        return f"No birthdays in the next {days} days."
 
     lines = [f"{u['name']}: {u['congratulation_date']}" for u in upcoming]
     return "\n".join(lines)
