@@ -156,3 +156,50 @@ def delete_note(args: List[str], notebook: Notebook) -> str:
     if notebook.delete(title):
         return "Note deleted."
     return "Note not found."
+
+@input_error
+def add_tag(args: List[str], notebook: Notebook) -> str:
+    if len(args) < 2:
+        raise IndexError
+
+    title = args[0]
+    tag = args[1]
+
+    note = notebook.find_by_title(title)
+    if note is None:
+        return "Note not found."
+
+    note.add_tag(tag)
+    return "Tag added."
+
+
+@input_error
+def find_by_tag(args: List[str], notebook: Notebook) -> str:
+    tag = args[0]
+    results = notebook.find_by_tag(tag)
+
+    if not results:
+        return "No notes found."
+
+    lines = []
+    for note in results:
+        tags = ", ".join(note.tags) if note.tags else "no tags"
+        lines.append(f"{note.title}: {note.body} | tags: {tags}")
+
+    return "\n".join(lines)
+
+
+@input_error
+def sort_by_tag(args: List[str], notebook: Notebook) -> str:
+    tag = args[0]
+    results = notebook.sort_by_tag(tag)
+
+    if not results:
+        return "No notes found."
+
+    lines = []
+    for note in results:
+        tags = ", ".join(note.tags) if note.tags else "no tags"
+        lines.append(f"{note.title}: {note.body} | tags: {tags}")
+
+    return "\n".join(lines)
