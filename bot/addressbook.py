@@ -158,4 +158,21 @@ class AddressBook(UserDict):
         return result
         
 
+    def search(self, query: str):
+        query = query.lower()
+        results = []
 
+        for record in self.data.values():
+            if query in record.name.value.lower():
+                results.append(record)
+                continue
+
+            for phone in record.phones:
+                if query in phone.value.lower():
+                    results.append(record)
+                    break
+            else:
+                if record.email and query in record.email.value.lower():
+                    results.append(record)
+
+        return results

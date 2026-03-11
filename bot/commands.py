@@ -102,3 +102,56 @@ def add_address(args: List[str], book: AddressBook) -> str:
         return "Contact not found."
     record.add_address(address)
     return "Address added."
+
+@input_error
+def delete_contact(args: List[str], book: AddressBook) -> str:
+    name = args[0]
+    record = book.find(name)
+
+    if record is None:
+        return "Contact not found."
+    book.delete(name)
+    return "Contact deleted."
+
+@input_error
+def search_contacts(args: List[str], book: AddressBook) -> str:
+    query = " ".join(args)
+    results = book.search(query)
+
+    if not results:
+        return "No matching contacts found."
+    return "\n".join(str(record) for record in results)
+
+@input_error
+def change_birthday(args: List[str], book: AddressBook) -> str:
+    name, new_birthday = args[0], args[1]
+    record = book.find(name)
+
+    if record is None:
+        return "Contact not found."
+
+    record.add_birthday(new_birthday)
+    return "Birthday updated."
+
+@input_error
+def change_email(args: List[str], book: AddressBook) -> str:
+    name, new_email = args[0], args[1]
+    record = book.find(name)
+
+    if record is None:
+        return "Contact not found."
+
+    record.add_email(new_email)
+    return "Email updated."
+
+@input_error
+def change_address(args: List[str], book: AddressBook) -> str:
+    name = args[0]
+    new_address = " ".join(args[1:])
+    record = book.find(name)
+
+    if record is None:
+        return "Contact not found."
+
+    record.add_address(new_address)
+    return "Address updated."

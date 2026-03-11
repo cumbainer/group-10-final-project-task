@@ -2,6 +2,7 @@ from typing import Callable, Dict, List, Tuple
 from bot.commands import add_contact, change_contact, show_phone, show_all
 from bot.commands import add_birthday, show_birthday, birthdays
 from bot.commands import add_email, add_address
+from bot.commands import search_contacts, delete_contact, change_birthday, change_email, change_address
 from bot.addressbook import AddressBook
 from bot.storage import save_data, load_data
 
@@ -25,6 +26,11 @@ def main() -> None:
         "birthdays": birthdays,
         "add-email": add_email,
         "add-address": add_address,
+        "search": search_contacts,
+        "delete": delete_contact,
+        "change-birthday": change_birthday,
+        "change-email": change_email,
+        "change-address": change_address,
     }
 
     print("Welcome to the assistant bot!")
