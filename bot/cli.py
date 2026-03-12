@@ -2,9 +2,15 @@ from typing import Callable, Dict, List, Tuple
 from bot.commands import add_contact, change_contact, show_phone, show_all
 from bot.commands import add_birthday, show_birthday, birthdays
 from bot.commands import add_email, add_address
+<<<<<<< HEAD
 from bot.commands import search_contacts, delete_contact, change_birthday, change_email, change_address
+=======
+from bot.commands import add_note, show_notes, find_note, edit_note, delete_note
+from bot.commands import add_tag, find_by_tag, sort_by_tag
+>>>>>>> main
 from bot.addressbook import AddressBook
-from bot.storage import save_data, load_data
+from bot.notebook import Notebook
+from bot.storage import save_data, load_data, save_notebook, load_notebook
 
 
 def parse_input(user_input: str) -> Tuple[str, List[str]]:
@@ -15,6 +21,7 @@ def parse_input(user_input: str) -> Tuple[str, List[str]]:
 def main() -> None:
     """Run the CLI assistant bot."""
     book = load_data()
+    notebook = load_notebook()
 
     contact_commands: Dict[str, Callable] = {
         "add": add_contact,
@@ -33,6 +40,17 @@ def main() -> None:
         "change-address": change_address,
     }
 
+    note_commands: Dict[str, Callable] = {
+        "add-note": add_note,
+        "show-notes": show_notes,
+        "find-note": find_note,
+        "edit-note": edit_note,
+        "delete-note": delete_note,
+        "add-tag": add_tag,
+        "find-by-tag": find_by_tag,
+        "sort-by-tag": sort_by_tag,
+    }
+
     print("Welcome to the assistant bot!")
 
     while True:
@@ -43,6 +61,7 @@ def main() -> None:
 
         if command in {"close", "exit"}:
             save_data(book)
+            save_notebook(notebook)
             print("Good bye!")
             break
 
@@ -52,6 +71,8 @@ def main() -> None:
 
         if command in contact_commands:
             print(contact_commands[command](args, book))
+        elif command in note_commands:
+            print(note_commands[command](args, notebook))
         else:
             print("Invalid command.")
 
