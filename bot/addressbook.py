@@ -112,8 +112,8 @@ class Record:
     def __str__(self):
         parts = [f"Contact name: {self.name.value}"]
         parts.append(f"phones: {'; '.join(p.value for p in self.phones)}")
-        if self.email:
-            parts.append(f"email: {'; '.join(e.value for e in self.emails)}")
+        if self.emails:
+            parts.append(f"emails: {'; '.join(e.value for e in self.emails)}")
         if self.address:
             parts.append(f"address: {self.address.value}")
         if self.birthday:
@@ -188,7 +188,8 @@ class AddressBook(UserDict):
                     results.append(record)
                     break
             else:
-                if record.email and query in record.email.value.lower():
-                    results.append(record)
-
+                for email in record.emails:
+                    if query in email.value.lower():
+                        results.append(record)
+                        break
         return results

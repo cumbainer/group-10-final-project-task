@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 .idea/
 notes.md
+.venv/
+venv/
+.DS_Store
