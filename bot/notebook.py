@@ -1,6 +1,7 @@
 from typing import List, Optional
 from bot.note import Note
 
+
 class Notebook:
     def __init__(self):
         self._notes: List[Note] = []
@@ -35,3 +36,11 @@ class Notebook:
             return False
         self._notes.remove(note)
         return True
+
+    def find_by_tag(self, tag: str) -> List[Note]:
+        normalized_tag = tag.strip().lower()
+        return [note for note in self._notes if normalized_tag in note.tags]
+
+    def sort_by_tag(self, tag: str) -> List[Note]:
+        normalized_tag = tag.strip().lower()
+        return sorted(self._notes, key=lambda note: normalized_tag not in note.tags)

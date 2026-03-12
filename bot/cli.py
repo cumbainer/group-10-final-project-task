@@ -3,6 +3,7 @@ from bot.commands import add_contact, change_contact, show_phone, show_all
 from bot.commands import add_birthday, show_birthday, birthdays
 from bot.commands import add_email, add_address
 from bot.commands import add_note, show_notes, find_note, edit_note, delete_note
+from bot.commands import add_tag, find_by_tag, sort_by_tag
 from bot.addressbook import AddressBook
 from bot.notebook import Notebook
 from bot.storage import save_data, load_data, save_notebook, load_notebook
@@ -36,6 +37,9 @@ def main() -> None:
         "find-note": find_note,
         "edit-note": edit_note,
         "delete-note": delete_note,
+        "add-tag": add_tag,
+        "find-by-tag": find_by_tag,
+        "sort-by-tag": sort_by_tag,
     }
 
     print("Welcome to the assistant bot!")
