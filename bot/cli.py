@@ -5,6 +5,7 @@ from bot.commands import add_email, add_address
 from bot.commands import search_contacts, delete_contact, change_birthday, change_email, change_address
 from bot.addressbook import AddressBook
 from bot.storage import save_data, load_data
+from bot.welcome_menu import show_welcome_menu
 
 
 def parse_input(user_input: str) -> Tuple[str, List[str]]:
@@ -33,7 +34,7 @@ def main() -> None:
         "change-address": change_address,
     }
 
-    print("Welcome to the assistant bot!")
+    show_welcome_menu()
 
     while True:
         user_input = input("Enter a command: ")
