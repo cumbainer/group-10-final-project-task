@@ -63,6 +63,8 @@ class Record:
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
+        # Extended contact model:
+        # contact can now store multiple email addresses
         self.emails = []
         self.birthday = None
         self.address = None
@@ -86,18 +88,22 @@ class Record:
             found_phone.value = new_phone
 
     def add_email(self, email: str) -> None:
+        # Adds a new email to contact
+        # Prevents duplicate emails
         for e in self.emails:
              if e.value == email:
                 raise ValueError("Email already exists.")
         self.emails.append(Email(email))
 
     def find_email(self, email):
+        # Search email in contact email list
          for item in self.emails:
             if item.value == email:
                 return item
 
 
     def remove_email(self, email):
+        # Remove email from contact
         found_email = self.find_email(email)
         if found_email:
             self.emails.remove(found_email)
@@ -112,7 +118,8 @@ class Record:
     def __str__(self):
         parts = [f"Contact name: {self.name.value}"]
         parts.append(f"phones: {'; '.join(p.value for p in self.phones)}")
-        if self.email:
+        if self.emails:
+            # Show all contact emails separated by ";"
             parts.append(f"email: {'; '.join(e.value for e in self.emails)}")
         if self.address:
             parts.append(f"address: {self.address.value}")
