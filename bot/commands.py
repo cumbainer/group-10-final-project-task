@@ -77,8 +77,6 @@ def show_birthday(args: List[str], book: AddressBook) -> str:
     return record.birthday.value.strftime("%d.%m.%Y")
 
 @input_error
-# Prints upcoming birthdays for the next week using AddressBook.get_upcoming_birthdays().
-@input_error
 def birthdays(args: List[str], book: AddressBook) -> str:
     days = 7
 
@@ -97,8 +95,9 @@ def birthdays(args: List[str], book: AddressBook) -> str:
 
 @input_error
 def add_email(args: List[str], book: AddressBook) -> str:
-    # Add a new email to a contact
-    name, email = args
+    if len(args) < 2:
+        raise IndexError
+    name, email = args[0], args[1]
 
     record = book.find(name)
     if record is None:

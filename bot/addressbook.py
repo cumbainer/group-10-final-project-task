@@ -101,8 +101,7 @@ class Record:
         self.emails.append(Email(email))
 
     def find_email(self, email):
-        # Search email in contact email list
-         for item in self.emails:
+        for item in self.emails:
             if item.value == email:
                 return item
 

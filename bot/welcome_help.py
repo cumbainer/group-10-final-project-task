@@ -64,14 +64,14 @@ show-birthday <name>
 birthdays
 
 NOTE COMMANDS
-add-note
+add-note <title> <text...>
 show-notes
 find-note <text>
-edit-note
-delete-note
-add-tag
+edit-note <title> <new_text...>
+delete-note <title>
+add-tag <title> <tag>
 find-by-tag <tag>
-sort-by-tag
+sort-by-tag <tag>
 
 GENERAL COMMANDS
 hello
