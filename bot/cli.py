@@ -2,6 +2,8 @@ from typing import Callable, Dict, List, Tuple
 from bot.commands import add_contact, change_contact, show_phone, show_all
 from bot.commands import add_birthday, show_birthday, birthdays
 from bot.commands import add_email, add_address
+from bot.commands import search_contacts, delete_contact
+from bot.commands import change_email, change_address, change_birthday
 from bot.commands import add_note, show_notes, find_note, edit_note, delete_note
 from bot.commands import add_tag, find_by_tag, sort_by_tag
 from bot.addressbook import AddressBook
@@ -29,6 +31,11 @@ def main() -> None:
         "birthdays": birthdays,
         "add-email": add_email,
         "add-address": add_address,
+        "search": search_contacts,
+        "delete": delete_contact,
+        "change-email": change_email,
+        "change-address": change_address,
+        "change-birthday": change_birthday,
     }
 
     note_commands: Dict[str, Callable] = {
