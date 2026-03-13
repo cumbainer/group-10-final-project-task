@@ -157,6 +157,22 @@ class AddressBook(UserDict):
     def delete(self, name):
         self.data.pop(name, None)
 
+    def search(self, query):
+        # Search contacts by name, phone or email
+        # Partial match, case-insensitive
+        query = query.lower()
+        results = []
+
+        for record in self.data.values():
+            name_match = query in record.name.value.lower()
+            phone_match = any(query in phone.value.lower() for phone in record.phones)
+            email_match = any(query in email.value.lower() for email in record.emails)
+
+            if name_match or phone_match or email_match:
+                results.append(record)
+
+        return results
+
     def get_upcoming_birthdays(self, days: int = 7) -> list:
         today = datetime.today().date()
         result = []

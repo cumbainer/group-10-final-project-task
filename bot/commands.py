@@ -115,6 +115,78 @@ def add_address(args: List[str], book: AddressBook) -> str:
     return "Address added."
 
 @input_error
+def search_contacts(args: List[str], book: AddressBook) -> str:
+    # Search contacts by name, phone or email
+    # Supports partial case-insensitive match
+    query = " ".join(args)
+    results = book.search(query)
+
+    if not results:
+        return "No matching contacts found."
+
+    return "\n".join(str(record) for record in results)
+
+
+@input_error
+def delete_contact(args: List[str], book: AddressBook) -> str:
+    # Delete contact by name from address book
+    name = args[0]
+    record = book.find(name)
+
+    if record is None:
+        return "Contact not found."
+
+    book.delete(name)
+    return "Contact deleted."
+
+
+@input_error
+def change_email(args: List[str], book: AddressBook) -> str:
+    # Change existing email for a contact
+    # Replaces old email with a new one
+    name, old_email, new_email = args[0], args[1], args[2]
+
+    record = book.find(name)
+    if record is None:
+        return "Contact not found."
+
+    found_email = record.find_email(old_email)
+    if found_email is None:
+        return "Old email not found."
+
+    found_email.value = new_email
+    return "Email updated."
+
+
+@input_error
+def change_address(args: List[str], book: AddressBook) -> str:
+    # Change or set address for a contact
+    # Address may contain spaces
+    name = args[0]
+    new_address = " ".join(args[1:])
+
+    record = book.find(name)
+    if record is None:
+        return "Contact not found."
+
+    record.add_address(new_address)
+    return "Address updated."
+
+
+@input_error
+def change_birthday(args: List[str], book: AddressBook) -> str:
+    # Change or set birthday for a contact
+    # Date format must be DD.MM.YYYY
+    name, new_birthday = args[0], args[1]
+
+    record = book.find(name)
+    if record is None:
+        return "Contact not found."
+
+    record.add_birthday(new_birthday)
+    return "Birthday updated."
+
+@input_error
 def add_note(args: List[str], notebook: Notebook) -> str:
     if len(args) < 2:
         raise IndexError
