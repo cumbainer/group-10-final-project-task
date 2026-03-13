@@ -70,6 +70,11 @@ class Record:
         self.address = None
 
     def add_phone(self, phone: str) -> None:
+        # Adds a new phone to contact
+        # Prevents duplicate phone numbers
+        if any(p.value == phone for p in self.phones):
+            raise ValueError("Phone already exists.")
+
         self.phones.append(Phone(phone))
 
     def find_phone(self, phone):
@@ -90,9 +95,9 @@ class Record:
     def add_email(self, email: str) -> None:
         # Adds a new email to contact
         # Prevents duplicate emails
-        for e in self.emails:
-             if e.value == email:
-                raise ValueError("Email already exists.")
+        if any(e.value == email for e in self.emails):
+            raise ValueError("Email already exists.")
+
         self.emails.append(Email(email))
 
     def find_email(self, email):
@@ -101,14 +106,12 @@ class Record:
             if item.value == email:
                 return item
 
-
     def remove_email(self, email):
         # Remove email from contact
         found_email = self.find_email(email)
         if found_email:
             self.emails.remove(found_email)
     
-
     def add_address(self, address: str) -> None:
         self.address = Address(address)
 
