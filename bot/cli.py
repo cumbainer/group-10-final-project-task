@@ -3,12 +3,13 @@ from bot.commands import add_contact, change_contact, show_phone, show_all
 from bot.commands import add_birthday, show_birthday, birthdays
 from bot.commands import add_email, add_address
 from bot.commands import search_contacts, delete_contact
-from bot.commands import change_email, change_address, change_birthday
+from bot.commands import change_email, change_address, change_birthday, remove_email
 from bot.commands import add_note, show_notes, find_note, edit_note, delete_note
 from bot.commands import add_tag, find_by_tag, sort_by_tag
 from bot.addressbook import AddressBook
 from bot.notebook import Notebook
 from bot.storage import save_data, load_data, save_notebook, load_notebook
+from bot.welcome_help import WELCOME_MESSAGE, HELP_MESSAGE
 
 
 def parse_input(user_input: str) -> Tuple[str, List[str]]:
@@ -34,8 +35,10 @@ def main() -> None:
         "search": search_contacts,
         "delete": delete_contact,
         "change-email": change_email,
+        "remove-email": remove_email,
         "change-address": change_address,
         "change-birthday": change_birthday,
+        
     }
 
     note_commands: Dict[str, Callable] = {
@@ -49,7 +52,7 @@ def main() -> None:
         "sort-by-tag": sort_by_tag,
     }
 
-    print("Welcome to the assistant bot!")
+    print(WELCOME_MESSAGE)
 
     while True:
         user_input = input("Enter a command: ")
@@ -65,6 +68,10 @@ def main() -> None:
 
         if command == "hello":
             print("How can I help you?")
+            continue
+
+        if command == "help":
+            print(HELP_MESSAGE)
             continue
 
         if command in contact_commands:

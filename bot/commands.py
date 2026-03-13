@@ -97,12 +97,32 @@ def birthdays(args: List[str], book: AddressBook) -> str:
 
 @input_error
 def add_email(args: List[str], book: AddressBook) -> str:
-    name, email = args[0], args[1]
+    # Add a new email to a contact
+    name, email = args
+
     record = book.find(name)
     if record is None:
         return "Contact not found."
+
     record.add_email(email)
     return "Email added."
+
+@input_error
+def remove_email(args: List[str], book: AddressBook) -> str:
+    # Remove email from contact
+    name, email = args[0], args[1]
+
+    record = book.find(name)
+    if record is None:
+        return "Contact not found."
+
+    found_email = record.find_email(email)
+
+    if found_email is None:
+        return "Email not found."
+
+    record.remove_email(email)
+    return "Email removed."
 
 @input_error
 def add_address(args: List[str], book: AddressBook) -> str:
@@ -142,8 +162,6 @@ def delete_contact(args: List[str], book: AddressBook) -> str:
 
 @input_error
 def change_email(args: List[str], book: AddressBook) -> str:
-    # Change existing email for a contact
-    # Replaces old email with a new one
     name, old_email, new_email = args[0], args[1], args[2]
 
     record = book.find(name)
@@ -151,6 +169,7 @@ def change_email(args: List[str], book: AddressBook) -> str:
         return "Contact not found."
 
     found_email = record.find_email(old_email)
+
     if found_email is None:
         return "Old email not found."
 
